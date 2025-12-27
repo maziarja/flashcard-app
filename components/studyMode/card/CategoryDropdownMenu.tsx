@@ -10,7 +10,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 function CategoryDropdownMenu() {
-  const { cards, dispatch, selectedCategories } = useCardContext();
+  const {
+    hideMasteredCards: cards,
+    dispatch,
+    selectedCategories,
+  } = useCardContext();
 
   const categoryCounts = new Map<string, number>();
   for (const card of cards) {

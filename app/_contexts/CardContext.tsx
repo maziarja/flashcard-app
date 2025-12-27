@@ -10,7 +10,7 @@ type CardContextType = {
   dispatch: React.Dispatch<Action>;
   currentIndex: number;
   selectedCategories: string[];
-  cards: CardType[];
+  hideMasteredCards: CardType[];
 };
 
 type Action =
@@ -163,7 +163,7 @@ function CardProvider({ children }: { children: React.ReactNode }) {
         dispatch,
         currentIndex,
         selectedCategories,
-        cards,
+        hideMasteredCards,
       }}
     >
       {children}
