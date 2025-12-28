@@ -3,7 +3,7 @@ import { useCardContext } from "@/app/_contexts/CardContext";
 import IconStatsTotal from "@/components/ui/icon-stats-total";
 
 function TotalCards() {
-  const { filteredCards: cards } = useCardContext();
+  const { cards } = useCardContext();
   const totalCards = cards.length;
   return (
     <div className="border-border grid grid-cols-[1fr_100px] overflow-hidden rounded-xl border-t border-r-2 border-b-2 border-l">

@@ -11,6 +11,8 @@ type CardContextType = {
   currentIndex: number;
   selectedCategories: string[];
   hideMasteredCards: CardType[];
+  hideMastered: boolean;
+  cards: CardType[];
 };
 
 type Action =
@@ -159,11 +161,13 @@ function CardProvider({ children }: { children: React.ReactNode }) {
   return (
     <CardContext.Provider
       value={{
+        cards,
         filteredCards,
         dispatch,
         currentIndex,
         selectedCategories,
         hideMasteredCards,
+        hideMastered,
       }}
     >
       {children}

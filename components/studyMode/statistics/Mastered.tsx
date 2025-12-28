@@ -4,7 +4,7 @@ import IconStatsMastered from "@/components/ui/icon-stats-mastered";
 import { MASTERED_LEVEL } from "@/lib/const";
 
 function Mastered() {
-  const { filteredCards: cards } = useCardContext();
+  const { cards } = useCardContext();
   const numOfMastered = cards.filter(
     (card) => card.knownCount === MASTERED_LEVEL,
   ).length;

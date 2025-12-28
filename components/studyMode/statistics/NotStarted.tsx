@@ -3,7 +3,7 @@ import { useCardContext } from "@/app/_contexts/CardContext";
 import IconStatsNotStarted from "@/components/ui/icon-stats-not-started";
 
 function NotStarted() {
-  const { filteredCards: cards } = useCardContext();
+  const { cards } = useCardContext();
   const numOfNotStarted = cards.filter((card) => card.knownCount === 0).length;
 
   return (

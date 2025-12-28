@@ -5,7 +5,7 @@ import IconStatsInProgress from "@/components/ui/icon-stats-in-progress";
 import { MASTERED_LEVEL } from "@/lib/const";
 
 function InProgress() {
-  const { filteredCards: cards } = useCardContext();
+  const { cards } = useCardContext();
 
   const numOfInProgress = cards.filter(
     (card) => card.knownCount < MASTERED_LEVEL && card.knownCount > 0,
