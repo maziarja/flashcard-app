@@ -17,7 +17,7 @@ function CardContent() {
     <div
       role="button"
       onClick={() => setShowAnswer((prevState) => !prevState)}
-      className={`relative flex h-100 cursor-pointer flex-col items-center gap-4 rounded-2xl border-2 border-neutral-900 transition-all duration-200 ${!showAnswer ? "bg-pink-400" : "bg-blue-400"} bg-[url("/assets/images/pattern-flashcard-bg.svg")] px-4 py-5 shadow-[2px_2px_0_0_#2e1401]`}
+      className={`relative flex h-100 cursor-pointer flex-col items-center gap-4 rounded-2xl border-2 border-neutral-900 transition-all duration-200 ${!showAnswer ? "bg-pink-400" : "bg-blue-400"} bg-[url("/assets/images/pattern-flashcard-bg.svg")] px-4 py-5 shadow-[2px_2px_0_0_#2e1401] md:p-6`}
     >
       <div className="absolute top-10 right-8">
         {!showAnswer ? <PatternStarBlue /> : <PatternStarPink />}
@@ -48,7 +48,7 @@ function CardContent() {
                   duration: 0.2,
                   type: "spring",
                 }}
-                className="text-preset-1 text-neutral-900"
+                className="text-preset-1 md:text-preset-1-tablet lg:text-preset-1-desktop text-neutral-900"
               >
                 {currentCard.question}
               </motion.p>
@@ -92,7 +92,7 @@ function CardContent() {
                   duration: 0.2,
                   type: "spring",
                 }}
-                className="text-preset-1 text-neutral-900"
+                className="text-preset-2 text-neutral-900"
               >
                 {currentCard.answer}
               </motion.p>

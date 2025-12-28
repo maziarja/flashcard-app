@@ -13,8 +13,12 @@ function CardFooter() {
         }
         size={"icon-lg"}
         variant={"outline"}
+        className="md:w-max md:px-4"
       >
         <ChevronLeftIcon />
+        <p className="text-preset-4-medium hidden text-neutral-900 md:block">
+          Previous
+        </p>
       </Button>
       <p className="text-preset-5 text-neutral-600">
         Card {currentIndex + 1} of {cards.length}
@@ -25,7 +29,11 @@ function CardFooter() {
         }
         size={"icon-lg"}
         variant={"outline"}
+        className="md:w-max md:px-4"
       >
+        <p className="text-preset-4-medium hidden text-neutral-900 md:block">
+          Next
+        </p>
         <ChevronRightIcon />
       </Button>
     </div>

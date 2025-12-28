@@ -39,7 +39,10 @@ function CategoryDropdownMenu() {
         className="divide-y rounded-lg px-0"
       >
         {categories.map(({ name, count }) => (
-          <div key={name} className="flex items-center gap-2 px-4 py-2">
+          <div
+            key={name}
+            className="focus:bg-accent hover:bg-accent flex items-center gap-2 px-4 py-2"
+          >
             <Checkbox
               id={`category-${name}`}
               onCheckedChange={() =>
@@ -49,7 +52,7 @@ function CategoryDropdownMenu() {
             />
             <Label htmlFor={`category-${name}`}>
               <DropdownMenuItem
-                className="text-preset-5 cursor-pointer p-0 text-neutral-900 focus:bg-transparent"
+                className="text-preset-5 cursor-pointer p-0 text-neutral-900"
                 onSelect={(e) => e.preventDefault()}
               >
                 {name} <span className="text-neutral-600">({count})</span>

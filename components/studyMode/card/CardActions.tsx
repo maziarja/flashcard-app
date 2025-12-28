@@ -7,7 +7,7 @@ function CardActions() {
   const { dispatch, filteredCards: cards, currentIndex } = useCardContext();
   const id = cards[currentIndex].id;
   return (
-    <div className="flex flex-col justify-center gap-2.5">
+    <div className="flex flex-col justify-center gap-2.5 md:flex-row md:gap-5">
       <Button
         onClick={() => dispatch({ type: "CHECKED_CARD", payload: id })}
         size={"lg"}

@@ -14,7 +14,7 @@ function SwitchTabs() {
         <Link
           onClick={() => setTabs(tab)}
           key={i}
-          className={`text-preset-4-semibold rounded-full px-3 py-2.5 text-neutral-900 capitalize ${tabs === tab ? "border border-neutral-900 bg-yellow-500" : ""}`}
+          className={`text-preset-4-semibold rounded-full px-3 py-2.5 text-neutral-900 capitalize ${tabs === tab ? "border border-neutral-900 bg-yellow-500" : "border-neutral-900 hover:border"}`}
           href={`/?window=${tab}`}
         >
           {tab.split("-").join(" ")}

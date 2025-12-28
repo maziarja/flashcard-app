@@ -6,8 +6,10 @@ function StudyModePage() {
   return (
     <div className="space-y-6">
       <Header />
-      <StudyFlashCard />
-      <StudyStatistics />
+      <div className="grid gap-6 lg:grid-cols-[1fr_.45fr]">
+        <StudyFlashCard />
+        <StudyStatistics />
+      </div>
     </div>
   );
 }

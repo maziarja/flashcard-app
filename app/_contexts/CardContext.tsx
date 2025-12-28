@@ -24,7 +24,8 @@ type Action =
   | { type: "CHECKED_CARD"; payload: string }
   | { type: "RESET_PROGRESS_CARD"; payload: string }
   | { type: "HIDE_MASTERED"; payload: boolean }
-  | { type: "TOGGLE_CATEGORY"; payload: string };
+  | { type: "TOGGLE_CATEGORY"; payload: string }
+  | { type: "SHUFFLE_CARDS" };
 
 const CardContext = createContext<CardContextType | undefined>(undefined);
 
@@ -136,6 +137,12 @@ function reducer(
           ? state.selectedCategories.filter((c) => c !== action.payload)
           : [...state.selectedCategories, action.payload],
         currentIndex: 0,
+      };
+
+    case "SHUFFLE_CARDS":
+      return {
+        ...state,
+        cards: [...state.cards].sort(() => Math.random() - 0.5),
       };
 
     default:
