@@ -1,11 +1,19 @@
-import Container from "@/components/shared/Container";
+import AllCardsPage from "@/components/allCards/AllCardsPage";
 import StudyModePage from "@/components/studyMode/StudyModePage";
 
-async function Page() {
+type PageProps = {
+  searchParams: Promise<{
+    window: "all-cards" | "study-mode";
+  }>;
+};
+
+async function Page({ searchParams }: PageProps) {
+  const { window } = await searchParams;
   return (
-    <Container>
-      <StudyModePage />
-    </Container>
+    <>
+      {window === "study-mode" && <StudyModePage />}
+      {window === "all-cards" && <AllCardsPage />}
+    </>
   );
 }
 

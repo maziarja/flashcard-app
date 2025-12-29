@@ -17,6 +17,7 @@ type CardContextType = {
 
 type Action =
   | { type: "ADD_CARD"; payload: CardType }
+  | { type: "UPDATE_CARD"; payload: CardType }
   | { type: "REMOVE_CARD"; payload: string }
   | { type: "SET_CARDS"; payload: CardType[] }
   | { type: "NEXT_CARD"; visibleLength: number }
@@ -61,6 +62,21 @@ function reducer(
       return {
         ...state,
         cards: [...state.cards, action.payload],
+      };
+
+    case "UPDATE_CARD":
+      return {
+        ...state,
+        cards: state.cards.map((card) =>
+          card.id === action.payload.id
+            ? {
+                ...card,
+                question: action.payload.question,
+                answer: action.payload.answer,
+                category: action.payload.category,
+              }
+            : card,
+        ),
       };
 
     case "REMOVE_CARD":

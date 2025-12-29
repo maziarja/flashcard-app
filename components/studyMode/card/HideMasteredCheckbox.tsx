@@ -11,7 +11,10 @@ function HideMasteredCheckbox() {
           dispatch({ type: "HIDE_MASTERED", payload: !!checked });
         }}
       />
-      <label htmlFor="hide-mastered" className="select-none">
+      <label
+        htmlFor="hide-mastered"
+        className="text-preset-4-medium text-neutral-900 select-none"
+      >
         Hide Mastered
       </label>
     </div>

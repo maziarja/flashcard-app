@@ -27,20 +27,26 @@ function DropdownMenuPortal({
 
 function DropdownMenuTrigger({
   className,
+  withChevron = false,
   children,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger>) {
   return (
     <DropdownMenuPrimitive.Trigger
       data-slot="dropdown-menu-trigger"
-      className={cn("group inline-flex items-center gap-2", className)}
+      className={cn(
+        "group inline-flex cursor-pointer items-center gap-2",
+        className,
+      )}
       {...props}
     >
       {children}
-      <ChevronDownIcon
-        className="relative top-[1px] size-4 transition duration-300 group-data-[state=open]:rotate-180"
-        aria-hidden="true"
-      />
+      {withChevron && (
+        <ChevronDownIcon
+          className="relative top-[1px] size-4 transition duration-300 group-data-[state=open]:rotate-180"
+          aria-hidden="true"
+        />
+      )}
     </DropdownMenuPrimitive.Trigger>
   );
 }

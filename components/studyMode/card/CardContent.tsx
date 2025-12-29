@@ -28,7 +28,7 @@ function CardContent() {
         <PatternStarYellow />
       </div>
 
-      <div className="bg-neutral-0 rounded-full border border-neutral-900 px-3 py-1.5 capitalize shadow-[1px_1px_0_0_#000000]">
+      <div className="bg-neutral-0 flex rounded-full border border-neutral-900 px-3 py-1.5 capitalize shadow-[1px_1px_0_0_#000000]">
         <span className="text-preset-6 text-neutral-900 capitalize">
           {currentCard.category}
         </span>

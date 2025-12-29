@@ -1,0 +1,67 @@
+"use client";
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "../../ui/button";
+import { CirclePlusIcon } from "lucide-react";
+import { CardSchema, CardType } from "@/lib/schemas/CardType";
+import { useCardContext } from "@/app/_contexts/CardContext";
+import { toast } from "sonner";
+import QuestionController from "./QuestionController";
+import AnswerController from "./AnswerController";
+import CategoryController from "./CategoryController";
+
+function CreateCardForm() {
+  const { dispatch } = useCardContext();
+
+  const form = useForm<CardType>({
+    resolver: zodResolver(CardSchema),
+    defaultValues: {
+      knownCount: 0,
+      answer: "",
+      question: "",
+      category: "",
+      id: "",
+    },
+  });
+
+  function onSubmit(data: CardType) {
+    const formattedDate = {
+      id: crypto.randomUUID(),
+      question: data.question,
+      answer: data.answer,
+      knownCount: data.knownCount,
+      category: data.category,
+    };
+
+    dispatch({ type: "ADD_CARD", payload: formattedDate });
+
+    form.reset();
+    toast("Card created successfully.");
+  }
+
+  return (
+    <form
+      onSubmit={form.handleSubmit(onSubmit)}
+      className="bg-neutral-0 border-border space-y-6 rounded-2xl border-t border-r-4 border-b-4 border-l p-5"
+    >
+      <div className="space-y-4">
+        <QuestionController form={form} />
+        <AnswerController form={form} />
+        <CategoryController form={form} />
+      </div>
+      <Button
+        type="submit"
+        size={"lg"}
+        className="shadow-[2px_2px_0_0_#2e1401]"
+      >
+        <CirclePlusIcon />
+        <span className="text-preset-4-semibold text-neutral-900">
+          {form.formState.isSubmitting ? "Creating" : "Create Card"}
+        </span>
+      </Button>
+    </form>
+  );
+}
+
+export default CreateCardForm;

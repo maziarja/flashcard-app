@@ -29,7 +29,10 @@ function CategoryDropdownMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="border-border text-preset-4-medium h-10.75 rounded-full border px-4 py-3">
+      <DropdownMenuTrigger
+        withChevron={true}
+        className="border-border bg-neutral-0 text-preset-4-medium h-10.75 rounded-full border px-4 py-3"
+      >
         All Categories
       </DropdownMenuTrigger>
 

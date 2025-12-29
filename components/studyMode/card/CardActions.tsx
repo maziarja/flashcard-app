@@ -1,3 +1,5 @@
+"use client";
+
 import { useCardContext } from "@/app/_contexts/CardContext";
 import { Button } from "@/components/ui/button";
 import IconCircleCheck from "@/components/ui/icon-circle-check";
@@ -17,9 +19,9 @@ function CardActions() {
       </Button>
       <Button
         onClick={() => dispatch({ type: "RESET_PROGRESS_CARD", payload: id })}
-        variant={"outline"}
+        variant={"secondary"}
         size={"lg"}
-        className="text-preset-4-medium text-neutral-900 shadow-[2px_2px_0_0_#2e1401]"
+        className="text-preset-4-medium text-neutral-900"
       >
         <IconReset /> Reset Progress
       </Button>

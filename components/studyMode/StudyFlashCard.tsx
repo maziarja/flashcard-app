@@ -6,6 +6,7 @@ import CardBody from "./card/CardBody";
 import CardFilter from "./card/CardFilter";
 import CardFooter from "./card/CardFooter";
 import AllHideMastered from "./card/AllHideMastered";
+import EmptyCards from "./card/EmptyCards";
 
 function StudyFlashCard() {
   const { filteredCards: cards, hideMastered } = useCardContext();
@@ -18,9 +19,15 @@ function StudyFlashCard() {
       <Separator />
       {!isAllCardsMastered || !hideMastered ? (
         <>
-          <CardBody />
-          <Separator />
-          <CardFooter />
+          {cards.length !== 0 ? (
+            <>
+              <CardBody />
+              <Separator />
+              <CardFooter />
+            </>
+          ) : (
+            <EmptyCards />
+          )}
         </>
       ) : (
         <AllHideMastered />
