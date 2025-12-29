@@ -11,7 +11,7 @@ async function Page({ searchParams }: PageProps) {
   const { window } = await searchParams;
   return (
     <>
-      {window === "study-mode" && <StudyModePage />}
+      {window !== "all-cards" && <StudyModePage />}
       {window === "all-cards" && <AllCardsPage />}
     </>
   );

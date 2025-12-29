@@ -7,7 +7,7 @@ const allTabs = ["study-mode", "all-cards"] as const;
 
 function SwitchTabs() {
   const searchParams = useSearchParams();
-  const window = searchParams.get("window");
+  const window = searchParams.get("window") || "study-mode";
 
   return (
     <div className="bg-neutral-0 flex items-center gap-1 rounded-full border border-neutral-900 p-1 shadow-[1px_2px_0_0_#2e1401]">
