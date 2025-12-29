@@ -83,6 +83,7 @@ function reducer(
       return {
         ...state,
         cards: state.cards.filter((card) => card.id !== action.payload),
+        selectedCategories: [],
       };
 
     case "NEXT_CARD":

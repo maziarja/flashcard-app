@@ -12,7 +12,6 @@ function CardContent() {
   const [showAnswer, setShowAnswer] = useState(false);
   const { filteredCards: cards, currentIndex } = useCardContext();
   const currentCard = cards[currentIndex];
-
   return (
     <div
       role="button"

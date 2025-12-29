@@ -9,17 +9,20 @@ import AllHideMastered from "./card/AllHideMastered";
 import EmptyCards from "./card/EmptyCards";
 
 function StudyFlashCard() {
-  const { filteredCards: cards, hideMastered } = useCardContext();
+  const {
+    filteredCards: cards,
+    cards: allCards,
+    hideMastered,
+  } = useCardContext();
 
   const isAllCardsMastered = cards.every((card) => card.knownCount === 5);
-
   return (
     <div className="bg-neutral-0 rounded-2xl border-t border-r-3 border-b-3 border-l border-neutral-900">
       <CardFilter />
       <Separator />
       {!isAllCardsMastered || !hideMastered ? (
         <>
-          {cards.length !== 0 ? (
+          {allCards.length !== 0 ? (
             <>
               <CardBody />
               <Separator />
