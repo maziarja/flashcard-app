@@ -31,7 +31,7 @@ function DropdownMenuTrigger({
   children,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Trigger> & {
-  withChevron: boolean;
+  withChevron?: boolean;
 }) {
   return (
     <DropdownMenuPrimitive.Trigger
