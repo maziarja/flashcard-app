@@ -68,7 +68,7 @@ function reducer(
       return {
         ...state,
         cards: state.cards.map((card) =>
-          card.id === action.payload.id
+          card._id === action.payload._id
             ? {
                 ...card,
                 question: action.payload.question,
@@ -82,7 +82,7 @@ function reducer(
     case "REMOVE_CARD":
       return {
         ...state,
-        cards: state.cards.filter((card) => card.id !== action.payload),
+        cards: state.cards.filter((card) => card._id !== action.payload),
         selectedCategories: [],
       };
 
@@ -113,7 +113,7 @@ function reducer(
       return {
         ...state,
         cards: state.cards.map((card) =>
-          card.id === action.payload
+          card._id === action.payload
             ? {
                 ...card,
                 knownCount:
@@ -129,7 +129,7 @@ function reducer(
       return {
         ...state,
         cards: state.cards.map((card) =>
-          card.id === action.payload
+          card._id === action.payload
             ? {
                 ...card,
                 knownCount: 0,

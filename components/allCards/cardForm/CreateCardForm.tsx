@@ -21,13 +21,13 @@ function CreateCardForm() {
       answer: "",
       question: "",
       category: "",
-      id: "",
+      _id: "",
     },
   });
 
   function onSubmit(data: CardType) {
     const formattedDate = {
-      id: crypto.randomUUID(),
+      _id: crypto.randomUUID(),
       question: data.question,
       answer: data.answer,
       knownCount: data.knownCount,

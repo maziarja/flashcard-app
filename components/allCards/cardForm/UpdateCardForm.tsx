@@ -21,7 +21,7 @@ function UpdateCardForm({ card, onOpenChange }: UpdateCardFormProps) {
     resolver: zodResolver(CardSchema),
     defaultValues: {
       knownCount: card.knownCount,
-      id: card.id,
+      _id: card._id,
       question: card.question,
       answer: card.answer,
       category: card.category,

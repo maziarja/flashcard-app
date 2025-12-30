@@ -7,7 +7,7 @@ import IconReset from "@/components/ui/icon-reset";
 
 function CardActions() {
   const { dispatch, filteredCards: cards, currentIndex } = useCardContext();
-  const id = cards[currentIndex].id;
+  const id = cards[currentIndex]._id;
   return (
     <div className="flex flex-col justify-center gap-2.5 md:flex-row md:gap-5">
       <Button

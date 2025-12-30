@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const CardSchema = z.object({
-  id: z.string(),
+  _id: z.string(),
   question: z.string().min(1, "Please enter a question."),
   answer: z.string().min(1, "Please enter an answer."),
   category: z.string().min(1, "Please enter a category."),

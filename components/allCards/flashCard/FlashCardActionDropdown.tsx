@@ -53,7 +53,7 @@ function FlashCardActionDropdown({ card }: { card: CardType }) {
       <DeleteCardDialog
         open={isDeleteOpen}
         onOpenChange={setIsDeleteOpen}
-        cardId={card.id}
+        cardId={card._id}
       />
     </>
   );
