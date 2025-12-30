@@ -29,7 +29,10 @@ function DeleteCardDialog({
     startTransition(async () => {
       dispatch({ type: "REMOVE_CARD", payload: cardId });
     });
-    toast("Card deleted.");
+    toast.success("Card deleted.");
+    toast.warning("Create an account to save your changes.", {
+      duration: 6000,
+    });
     onOpenChange(false);
   }
 

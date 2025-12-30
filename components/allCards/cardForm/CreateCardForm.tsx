@@ -37,7 +37,10 @@ function CreateCardForm() {
     dispatch({ type: "ADD_CARD", payload: formattedDate });
 
     form.reset();
-    toast("Card created successfully.");
+    toast.success("Card created successfully.");
+    toast.warning("Create an account to save your cards.", {
+      duration: 6000,
+    });
   }
 
   return (

@@ -32,7 +32,10 @@ function UpdateCardForm({ card, onOpenChange }: UpdateCardFormProps) {
     dispatch({ type: "UPDATE_CARD", payload: data });
 
     form.reset();
-    toast("Card updated successfully.");
+    toast.success("Card updated successfully.");
+    toast.warning("Create an account to save your changes.", {
+      duration: 6000,
+    });
     onOpenChange(false);
   }
 
