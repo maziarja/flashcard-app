@@ -14,7 +14,7 @@ import { toast } from "sonner";
 type DeleteCardDialogProps = {
   open: boolean;
   onOpenChange: React.Dispatch<React.SetStateAction<boolean>>;
-  cardId: string;
+  cardId: string | undefined;
 };
 
 function DeleteCardDialog({
@@ -27,7 +27,9 @@ function DeleteCardDialog({
 
   function handleDeleteCard() {
     startTransition(async () => {
-      dispatch({ type: "REMOVE_CARD", payload: cardId });
+      if (cardId) {
+        dispatch({ type: "REMOVE_CARD", payload: cardId });
+      }
     });
     toast.success("Card deleted.");
     toast.warning("Create an account to save your changes.", {
