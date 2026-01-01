@@ -4,7 +4,11 @@ import { useState } from "react";
 import SignInForm from "./SignInForm";
 import SignUpForm from "./SignUpForm";
 
-function Authentication() {
+function Authentication({
+  onOpenChange,
+}: {
+  onOpenChange: (open: boolean) => void;
+}) {
   const [activeTab, setActiveTab] = useState<"signIn" | "register">("signIn");
   return (
     <Tabs
@@ -12,11 +16,15 @@ function Authentication() {
       onValueChange={(value) => setActiveTab(value as "signIn" | "register")}
     >
       <TabsList className="w-full">
-        <TabsTrigger value="signIn">Sign In</TabsTrigger>
-        <TabsTrigger value="register">Register</TabsTrigger>
+        <TabsTrigger value="signIn" className="text-preset-4-regular!">
+          Sign In
+        </TabsTrigger>
+        <TabsTrigger value="register" className="text-preset-4-regular!">
+          Register
+        </TabsTrigger>
       </TabsList>
       <TabsContent value="signIn">
-        <SignInForm />
+        <SignInForm onOpenChange={onOpenChange} />
       </TabsContent>
       <TabsContent value="register">
         <SignUpForm onActiveTab={setActiveTab} />

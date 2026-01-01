@@ -14,7 +14,6 @@ function StudyFlashCard() {
     cards: allCards,
     hideMastered,
   } = useCardContext();
-
   const isAllCardsMastered = cards.every((card) => card.knownCount === 5);
   return (
     <div className="bg-neutral-0 rounded-2xl border-t border-r-3 border-b-3 border-l border-neutral-900">

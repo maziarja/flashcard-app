@@ -14,6 +14,10 @@ const cardSchema = new Schema({
     type: String,
     required: [true, "Category is required"],
   },
+  knownCount: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const userSchema = new Schema(
@@ -29,6 +33,7 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: [true, "Password is required"],
+      minLength: [6, "Password must be at least 6 characters"],
     },
 
     cards: { type: [cardSchema], default: [] },

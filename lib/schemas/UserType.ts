@@ -14,3 +14,15 @@ export const UserSchema = z.object({
 });
 
 export type UserType = z.infer<typeof UserSchema>;
+
+export const AuthSchema = z.object({
+  emailAddress: z
+    .email()
+    .toLowerCase()
+    .trim()
+    .min(1, "Email address is required"),
+
+  password: z.string().trim().min(6, "Password must be at least 6 char"),
+});
+
+export type AuthType = z.infer<typeof AuthSchema>;

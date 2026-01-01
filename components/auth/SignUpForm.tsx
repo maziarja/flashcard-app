@@ -1,23 +1,52 @@
+"use client";
+
 import { Controller, useForm } from "react-hook-form";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthSchema, AuthType, UserType } from "@/lib/schemas/UserType";
+import { useCardContext } from "@/app/_contexts/CardContext";
+import { registerUser } from "@/app/_actions/auth/register";
 
 type Props = {
   onActiveTab: React.Dispatch<React.SetStateAction<"signIn" | "register">>;
 };
 
 function SignUpForm({ onActiveTab }: Props) {
-  const form = useForm({
+  const { cards, dispatch } = useCardContext();
+
+  const cardsWithoutId = cards.map((card) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { _id, ...cardWithoutId } = card;
+
+    return cardWithoutId;
+  });
+
+  const form = useForm<AuthType>({
+    resolver: zodResolver(AuthSchema),
     defaultValues: {
       emailAddress: "",
       password: "",
     },
   });
 
-  async function onSubmit() {
-    onActiveTab("signIn");
+  async function onSubmit(data: AuthType) {
+    try {
+      const userData: UserType = {
+        emailAddress: data.emailAddress,
+        password: data.password,
+        cards: cardsWithoutId,
+      };
+      const cards = await registerUser(userData);
+      dispatch({ type: "SET_CARDS", payload: cards });
+      onActiveTab("signIn");
+      form.reset();
+    } catch (error) {
+      console.error(error);
+      form.setError("root", { message: "Email Address exist" });
+    }
   }
 
   return (
@@ -60,8 +89,8 @@ function SignUpForm({ onActiveTab }: Props) {
       {form.formState.errors.root && (
         <FieldError errors={[form.formState.errors.root]} />
       )}
-      <Button type="submit" className="w-full rounded-md text-white">
-        {!form.formState.isSubmitting ? "  Join for Free" : <Spinner />}
+      <Button type="submit" size={"lg"} className="w-full text-neutral-900">
+        {!form.formState.isSubmitting ? "Register" : <Spinner />}
       </Button>
     </form>
   );

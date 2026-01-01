@@ -1,18 +1,42 @@
+"use client";
+
 import { Controller, useForm } from "react-hook-form";
 import { Field, FieldError, FieldGroup, FieldLabel } from "../ui/field";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { AuthSchema, AuthType } from "@/lib/schemas/UserType";
+import { signInUser } from "@/app/_actions/auth/signInUser";
+import { redirect } from "next/navigation";
+import { useCardContext } from "@/app/_contexts/CardContext";
 
-function SignInForm() {
-  const form = useForm({
+function SignInForm({
+  onOpenChange,
+}: {
+  onOpenChange: (open: boolean) => void;
+}) {
+  const { reloadCard } = useCardContext();
+
+  const form = useForm<AuthType>({
+    resolver: zodResolver(AuthSchema),
     defaultValues: {
-      emailAddress: "",
-      password: "",
+      emailAddress: "mazi@gmail.com",
+      password: "mazimazi",
     },
   });
 
-  function onSubmit() {}
+  async function onSubmit(data: AuthType) {
+    const result = await signInUser(data);
+    if (result.success) {
+      reloadCard();
+      onOpenChange(false);
+      form.reset();
+      redirect("/");
+    } else {
+      form.setError("root", { message: "Email or Password is incorrect" });
+    }
+  }
 
   return (
     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 p-4">
@@ -54,7 +78,7 @@ function SignInForm() {
       {form.formState.errors.root && (
         <FieldError errors={[form.formState.errors.root]} />
       )}
-      <Button type="submit" className="w-full rounded-md text-white">
+      <Button type="submit" size={"lg"} className="w-full text-neutral-900">
         {!form.formState.isSubmitting ? "Sign In" : <Spinner />}
       </Button>
     </form>

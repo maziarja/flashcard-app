@@ -21,7 +21,7 @@ const poppins = Poppins({
   weight: ["400", "500", "600", "700", "800"],
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;

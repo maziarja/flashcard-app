@@ -3,7 +3,15 @@
 import cartsData from "@/data.json";
 import { MASTERED_LEVEL } from "@/lib/const";
 import { CardType } from "@/lib/schemas/CardType";
-import { createContext, useContext, useReducer } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
+import { getCards } from "../_actions/cards/getCards";
+import { isLoggedInUser } from "../_actions/auth/loggedInUser";
 
 type CardContextType = {
   filteredCards: CardType[];
@@ -13,6 +21,8 @@ type CardContextType = {
   hideMasteredCards: CardType[];
   hideMastered: boolean;
   cards: CardType[];
+  isAuthenticated: boolean;
+  reloadCard: () => void;
 };
 
 type Action =
@@ -26,7 +36,8 @@ type Action =
   | { type: "RESET_PROGRESS_CARD"; payload: string }
   | { type: "HIDE_MASTERED"; payload: boolean }
   | { type: "TOGGLE_CATEGORY"; payload: string }
-  | { type: "SHUFFLE_CARDS" };
+  | { type: "SHUFFLE_CARDS" }
+  | { type: "LOGGED_IN_USER"; payload: boolean };
 
 const CardContext = createContext<CardContextType | undefined>(undefined);
 
@@ -35,6 +46,7 @@ const initialState = {
   currentIndex: 0,
   hideMastered: false,
   selectedCategories: [],
+  isAuthenticated: false,
 };
 
 function reducer(
@@ -43,6 +55,7 @@ function reducer(
     currentIndex: number;
     hideMastered: boolean;
     selectedCategories: string[];
+    isAuthenticated: boolean;
   },
   action: Action,
 ) {
@@ -162,14 +175,39 @@ function reducer(
         cards: [...state.cards].sort(() => Math.random() - 0.5),
       };
 
+    case "LOGGED_IN_USER":
+      return {
+        ...state,
+        isAuthenticated: action.payload,
+      };
+
     default:
       return state;
   }
 }
 
 function CardProvider({ children }: { children: React.ReactNode }) {
-  const [{ cards, currentIndex, hideMastered, selectedCategories }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { cards, currentIndex, hideMastered, selectedCategories, isAuthenticated },
+    dispatch,
+  ] = useReducer(reducer, initialState);
+  const [reloadCards, setReloadCards] = useState(0);
+  const reloadCard = () => setReloadCards((v) => v + 1);
+
+  useEffect(() => {
+    async function loadCards() {
+      const isAuthenticated = await isLoggedInUser();
+      if (isAuthenticated) {
+        const dbCards = await getCards();
+        if (dbCards) dispatch({ type: "SET_CARDS", payload: dbCards });
+        dispatch({ type: "LOGGED_IN_USER", payload: true });
+      } else {
+        dispatch({ type: "SET_CARDS", payload: cartsData.flashcards });
+        dispatch({ type: "LOGGED_IN_USER", payload: false });
+      }
+    }
+    loadCards();
+  }, [reloadCards]);
 
   const hideMasteredCards = hideMastered
     ? cards.filter((card) => card.knownCount < MASTERED_LEVEL)
@@ -192,6 +230,8 @@ function CardProvider({ children }: { children: React.ReactNode }) {
         selectedCategories,
         hideMasteredCards,
         hideMastered,
+        isAuthenticated,
+        reloadCard,
       }}
     >
       {children}
