@@ -1,7 +1,19 @@
-import { UserType } from "@/lib/schemas/UserType";
-import mongoose, { Document, Model, models, Schema } from "mongoose";
+import mongoose, { Document, Model, models, Schema, Types } from "mongoose";
 
-const cardSchema = new Schema({
+type Card = Types.Subdocument & {
+  answer: string;
+  question: string;
+  category: string;
+  knownCount: number;
+};
+
+type User = Document & {
+  emailAddress: string;
+  password: string;
+  cards: Types.DocumentArray<Card>;
+};
+
+const cardSchema = new Schema<Card>({
   answer: {
     type: String,
     required: [true, "Answer is required"],
@@ -43,7 +55,5 @@ const userSchema = new Schema(
   },
 );
 
-type UserDocument = Document & UserType;
-
-export const User: Model<UserDocument> =
-  models.User || mongoose.model<UserDocument>("User", userSchema);
+export const User: Model<User> =
+  models.User || mongoose.model<User>("User", userSchema);

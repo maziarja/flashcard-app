@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { DialogFooter } from "@/components/ui/dialog";
 import { useCardContext } from "@/app/_contexts/CardContext";
 import { toast } from "sonner";
+import { updateCard } from "@/app/_actions/cards/updateCard";
+import { FieldError } from "@/components/ui/field";
 
 type UpdateCardFormProps = {
   card: CardType;
@@ -15,7 +17,7 @@ type UpdateCardFormProps = {
 };
 
 function UpdateCardForm({ card, onOpenChange }: UpdateCardFormProps) {
-  const { dispatch } = useCardContext();
+  const { dispatch, isAuthenticated } = useCardContext();
 
   const form = useForm<CardType>({
     resolver: zodResolver(CardSchema),
@@ -28,14 +30,22 @@ function UpdateCardForm({ card, onOpenChange }: UpdateCardFormProps) {
     },
   });
 
-  function onSubmit(data: CardType) {
+  async function onSubmit(data: CardType) {
     dispatch({ type: "UPDATE_CARD", payload: data });
+
+    try {
+      if (isAuthenticated) await updateCard(data);
+    } catch (error) {
+      console.error(error);
+      form.setError("root", { message: "Can't update your card" });
+    }
 
     form.reset();
     toast.success("Card updated successfully.");
-    toast.warning("Create an account to save your changes.", {
-      duration: 6000,
-    });
+    if (!isAuthenticated)
+      toast.warning("Create an account to save your changes.", {
+        duration: 6000,
+      });
     onOpenChange(false);
   }
 
@@ -47,6 +57,9 @@ function UpdateCardForm({ card, onOpenChange }: UpdateCardFormProps) {
         <CategoryController form={form} />
       </div>
       <DialogFooter>
+        {form.formState.errors.root && (
+          <FieldError errors={[form.formState.errors.root]} />
+        )}
         <Button
           type="submit"
           size={"lg"}
