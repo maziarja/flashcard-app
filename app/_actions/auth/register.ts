@@ -1,11 +1,11 @@
 "use server";
 
 import connectDB from "@/lib/database";
-import { CardsSchema, CardType } from "@/lib/schemas/CardType";
+import { CardsSchema } from "@/lib/schemas/CardType";
 import { UserSchema, UserType } from "@/lib/schemas/UserType";
 import { User } from "@/models/User";
 import bcrypt from "bcryptjs";
-import { Error, HydratedDocument } from "mongoose";
+import { Error } from "mongoose";
 
 export async function registerUser(data: UserType) {
   await connectDB();
@@ -21,7 +21,7 @@ export async function registerUser(data: UserType) {
     cards: validData.data.cards,
   });
 
-  const cards = (result.cards as HydratedDocument<CardType>[]).map((card) => {
+  const cards = result.cards.map((card) => {
     const plain = card.toObject();
     return {
       ...plain,
