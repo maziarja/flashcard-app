@@ -10,9 +10,10 @@ import { toast } from "sonner";
 import QuestionController from "./QuestionController";
 import AnswerController from "./AnswerController";
 import CategoryController from "./CategoryController";
+import { createCard } from "@/app/_actions/cards/createCard";
 
 function CreateCardForm() {
-  const { dispatch } = useCardContext();
+  const { dispatch, isAuthenticated } = useCardContext();
 
   const form = useForm<CardType>({
     resolver: zodResolver(CardSchema),
@@ -25,7 +26,7 @@ function CreateCardForm() {
     },
   });
 
-  function onSubmit(data: CardType) {
+  async function onSubmit(data: CardType) {
     const formattedDate = {
       _id: crypto.randomUUID(),
       question: data.question,
@@ -33,14 +34,25 @@ function CreateCardForm() {
       knownCount: data.knownCount,
       category: data.category,
     };
+    try {
+      if (isAuthenticated) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { _id, ...cardWithoutId } = data;
+
+        await createCard(cardWithoutId);
+      }
+    } catch (error) {
+      console.error(error);
+    }
 
     dispatch({ type: "ADD_CARD", payload: formattedDate });
 
     form.reset();
     toast.success("Card created successfully.");
-    toast.warning("Create an account to save your cards.", {
-      duration: 6000,
-    });
+    if (!isAuthenticated)
+      toast.warning("Create an account to save your cards.", {
+        duration: 6000,
+      });
   }
 
   return (
