@@ -17,7 +17,7 @@ function DropdownLogout() {
           <CircleUserRoundIcon size={30} />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" sideOffset={5} alignOffset={10}>
+      <DropdownMenuContent align="end" sideOffset={9}>
         <DropdownMenuItem>
           <button
             className="flex w-full cursor-pointer items-center gap-2"
