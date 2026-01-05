@@ -9,13 +9,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthSchema, AuthType, UserType } from "@/lib/schemas/UserType";
 import { useCardContext } from "@/app/_contexts/CardContext";
 import { registerUser } from "@/app/_actions/auth/register";
+import { useRouter } from "next/navigation";
 
 type Props = {
   onActiveTab: React.Dispatch<React.SetStateAction<"signIn" | "register">>;
 };
 
 function SignUpForm({ onActiveTab }: Props) {
-  const { cards, dispatch } = useCardContext();
+  const router = useRouter();
+  const { cards, dispatch, reloadCard } = useCardContext();
 
   const cardsWithoutId = cards.map((card) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -39,10 +41,14 @@ function SignUpForm({ onActiveTab }: Props) {
         password: data.password,
         cards: cardsWithoutId,
       };
-      const cards = await registerUser(userData);
-      dispatch({ type: "SET_CARDS", payload: cards });
-      onActiveTab("signIn");
-      form.reset();
+      const result = await registerUser(userData);
+      if (result.success) {
+        dispatch({ type: "SET_CARDS", payload: result.data });
+        onActiveTab("signIn");
+        form.reset();
+        reloadCard();
+        router.push("/");
+      }
     } catch (error) {
       console.error(error);
       form.setError("root", { message: "Email Address exist" });
