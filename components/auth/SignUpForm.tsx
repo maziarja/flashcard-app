@@ -9,14 +9,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthSchema, AuthType, UserType } from "@/lib/schemas/UserType";
 import { useCardContext } from "@/app/_contexts/CardContext";
 import { registerUser } from "@/app/_actions/auth/register";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
+import { signInUser } from "@/app/_actions/auth/signInUser";
 
 type Props = {
   onActiveTab: React.Dispatch<React.SetStateAction<"signIn" | "register">>;
+  onOpenChange: (open: boolean) => void;
 };
 
-function SignUpForm({ onActiveTab }: Props) {
-  const router = useRouter();
+function SignUpForm({ onActiveTab, onOpenChange }: Props) {
   const { cards, dispatch, reloadCard } = useCardContext();
 
   const cardsWithoutId = cards.map((card) => {
@@ -47,7 +48,14 @@ function SignUpForm({ onActiveTab }: Props) {
         onActiveTab("signIn");
         form.reset();
         reloadCard();
-        router.push("/");
+
+        const result2 = await signInUser(data);
+        if (result2.success) {
+          reloadCard();
+          onOpenChange(false);
+          form.reset();
+          redirect("/");
+        }
       }
     } catch (error) {
       console.error(error);

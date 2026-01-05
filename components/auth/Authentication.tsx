@@ -27,7 +27,7 @@ function Authentication({
         <SignInForm onOpenChange={onOpenChange} />
       </TabsContent>
       <TabsContent value="register">
-        <SignUpForm onActiveTab={setActiveTab} />
+        <SignUpForm onActiveTab={setActiveTab} onOpenChange={onOpenChange} />
       </TabsContent>
     </Tabs>
   );

@@ -1,6 +1,5 @@
 "use server";
 
-import { signIn } from "@/lib/auth";
 import connectDB from "@/lib/database";
 import { CardsSchema } from "@/lib/schemas/CardType";
 import { UserSchema, UserType } from "@/lib/schemas/UserType";
@@ -34,12 +33,6 @@ export async function registerUser(data: UserType) {
   if (!validCards.success) {
     throw new Error(validCards.error.issues[0].message);
   }
-
-  await signIn("credentials", {
-    email: validData.data.emailAddress,
-    password: validData.data.password,
-    redirect: false,
-  });
 
   return { success: true, data: validCards.data };
 }
