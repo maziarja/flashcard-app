@@ -174,6 +174,7 @@ function reducer(
       return {
         ...state,
         cards: [...state.cards].sort(() => Math.random() - 0.5),
+        currentIndex: 0,
       };
 
     case "LOGGED_IN_USER":
