@@ -2,23 +2,26 @@
 
 import { auth } from "@/lib/auth";
 import connectDB from "@/lib/database";
-import { CardType } from "@/lib/schemas/CardType";
 import { User } from "@/models/User";
 import { revalidatePath } from "next/cache";
 
-export async function createCard(card: CardType) {
+export async function deleteCard(cardId: string) {
   try {
     await connectDB();
-
     const session = await auth();
 
     if (!session) throw new Error("You must login first");
 
     const currentUser = await User.findById(session.user?.id);
 
-    if (!currentUser) throw new Error("User not found");
+    if (!currentUser) throw new Error("User not found!");
 
-    currentUser.cards.push(card);
+    const currentCard = currentUser.cards.id(cardId);
+
+    if (!currentCard)
+      throw new Error("You are not allowed to update this card");
+
+    currentCard.deleteOne();
 
     await currentUser.save();
 

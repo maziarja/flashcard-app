@@ -38,21 +38,22 @@ function CreateCardForm() {
       if (isAuthenticated) {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { _id, ...cardWithoutId } = data;
-
-        await createCard(cardWithoutId);
+        const card = await createCard(cardWithoutId);
+        if (card) {
+          dispatch({ type: "ADD_CARD", payload: card });
+        }
+      } else {
+        dispatch({ type: "ADD_CARD", payload: formattedDate });
       }
+      form.reset();
+      toast.success("Card created successfully.");
+      if (!isAuthenticated)
+        toast.warning("Create an account to save your cards.", {
+          duration: 6000,
+        });
     } catch (error) {
       console.error(error);
     }
-
-    dispatch({ type: "ADD_CARD", payload: formattedDate });
-
-    form.reset();
-    toast.success("Card created successfully.");
-    if (!isAuthenticated)
-      toast.warning("Create an account to save your cards.", {
-        duration: 6000,
-      });
   }
 
   return (

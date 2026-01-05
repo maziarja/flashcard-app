@@ -10,6 +10,7 @@ import {
 } from "../ui/dialog";
 import { useTransition } from "react";
 import { toast } from "sonner";
+import { deleteCard } from "@/app/_actions/cards/deleteCard";
 
 type DeleteCardDialogProps = {
   open: boolean;
@@ -22,20 +23,27 @@ function DeleteCardDialog({
   onOpenChange,
   cardId,
 }: DeleteCardDialogProps) {
-  const { dispatch } = useCardContext();
+  const { dispatch, isAuthenticated } = useCardContext();
   const [isPending, startTransition] = useTransition();
 
   function handleDeleteCard() {
-    startTransition(async () => {
-      if (cardId) {
-        dispatch({ type: "REMOVE_CARD", payload: cardId });
-      }
-    });
-    toast.success("Card deleted.");
-    toast.warning("Create an account to save your changes.", {
-      duration: 6000,
-    });
-    onOpenChange(false);
+    try {
+      startTransition(async () => {
+        if (cardId) {
+          if (isAuthenticated) await deleteCard(cardId);
+          dispatch({ type: "REMOVE_CARD", payload: cardId });
+        }
+      });
+      toast.success("Card deleted.");
+      if (!isAuthenticated)
+        toast.warning("Create an account to save your changes.", {
+          duration: 6000,
+        });
+
+      onOpenChange(false);
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (

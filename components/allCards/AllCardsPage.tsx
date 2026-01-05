@@ -5,20 +5,30 @@ import CardFilter from "../studyMode/card/CardFilter";
 import CreateCardForm from "./cardForm/CreateCardForm";
 import FlashCardsContainer from "./FlashCardsContainer";
 import EmptyCards from "./EmptyCards";
+import SkeletonAllCardsFlashcard from "../ui/skeleton-allCards-flashcard";
 
 function AllCardsPage() {
-  const { cards } = useCardContext();
+  const { cards, isLoading } = useCardContext();
 
   return (
     <div className="space-y-6">
       <CreateCardForm />
-      {cards.length !== 0 ? (
+      {isLoading ? (
         <>
           <CardFilter />
-          <FlashCardsContainer />
+          <SkeletonAllCardsFlashcard />
         </>
       ) : (
-        <EmptyCards />
+        <>
+          {cards.length !== 0 ? (
+            <>
+              <CardFilter />
+              <FlashCardsContainer />
+            </>
+          ) : (
+            <EmptyCards />
+          )}
+        </>
       )}
     </div>
   );

@@ -32,7 +32,6 @@ function UpdateCardForm({ card, onOpenChange }: UpdateCardFormProps) {
 
   async function onSubmit(data: CardType) {
     dispatch({ type: "UPDATE_CARD", payload: data });
-
     try {
       if (isAuthenticated) await updateCard(data);
     } catch (error) {

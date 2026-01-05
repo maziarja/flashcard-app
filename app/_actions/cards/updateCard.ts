@@ -10,7 +10,6 @@ export async function updateCard(card: CardType) {
   try {
     await connectDB();
     const session = await auth();
-
     if (!session) throw new Error("You must login first");
 
     const currentUser = await User.findById(session?.user?.id);

@@ -23,6 +23,7 @@ type CardContextType = {
   cards: CardType[];
   isAuthenticated: boolean;
   reloadCard: () => void;
+  isLoading: boolean;
 };
 
 type Action =
@@ -42,7 +43,7 @@ type Action =
 const CardContext = createContext<CardContextType | undefined>(undefined);
 
 const initialState = {
-  cards: cartsData.flashcards,
+  cards: [],
   currentIndex: 0,
   hideMastered: false,
   selectedCategories: [],
@@ -192,10 +193,12 @@ function CardProvider({ children }: { children: React.ReactNode }) {
     dispatch,
   ] = useReducer(reducer, initialState);
   const [reloadCards, setReloadCards] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   const reloadCard = () => setReloadCards((v) => v + 1);
 
   useEffect(() => {
     async function loadCards() {
+      setIsLoading(true);
       const isAuthenticated = await isLoggedInUser();
       if (isAuthenticated) {
         const dbCards = await getCards();
@@ -205,6 +208,7 @@ function CardProvider({ children }: { children: React.ReactNode }) {
         dispatch({ type: "SET_CARDS", payload: cartsData.flashcards });
         dispatch({ type: "LOGGED_IN_USER", payload: false });
       }
+      setIsLoading(false);
     }
     loadCards();
   }, [reloadCards]);
@@ -232,6 +236,7 @@ function CardProvider({ children }: { children: React.ReactNode }) {
         hideMastered,
         isAuthenticated,
         reloadCard,
+        isLoading,
       }}
     >
       {children}
