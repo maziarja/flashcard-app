@@ -43,15 +43,14 @@ function SignUpForm({ onActiveTab, onOpenChange }: Props) {
         cards: cardsWithoutId,
       };
       const result = await registerUser(userData);
+      reloadCard();
       if (result.success) {
         dispatch({ type: "SET_CARDS", payload: result.data });
         onActiveTab("signIn");
         form.reset();
-        reloadCard();
 
         const result2 = await signInUser(data);
         if (result2.success) {
-          reloadCard();
           onOpenChange(false);
           form.reset();
           redirect("/");

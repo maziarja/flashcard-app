@@ -28,8 +28,8 @@ function SignInForm({
 
   async function onSubmit(data: AuthType) {
     const result = await signInUser(data);
+    reloadCard();
     if (result.success) {
-      reloadCard();
       onOpenChange(false);
       form.reset();
       redirect("/");
