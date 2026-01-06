@@ -18,7 +18,7 @@ type Props = {
 };
 
 function SignUpForm({ onActiveTab, onOpenChange }: Props) {
-  const router = useRouter("/");
+  const router = useRouter();
   const { cards, dispatch, reloadCard } = useCardContext();
 
   const cardsWithoutId = cards.map((card) => {
