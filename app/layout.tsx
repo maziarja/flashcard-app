@@ -36,7 +36,7 @@ export default async function RootLayout({
           </Container>
         </CardProvider>
         <Toaster
-          position="top-left"
+          position="top-right"
           richColors
           expand={true}
           toastOptions={{
