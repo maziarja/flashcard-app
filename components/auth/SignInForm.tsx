@@ -8,7 +8,7 @@ import { Spinner } from "../ui/spinner";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AuthSchema, AuthType } from "@/lib/schemas/UserType";
 import { signInUser } from "@/app/_actions/auth/signInUser";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useCardContext } from "@/app/_contexts/CardContext";
 
 function SignInForm({
@@ -33,7 +33,6 @@ function SignInForm({
     if (result.success) {
       onOpenChange(false);
       form.reset();
-      // redirect("/");
       router.push("/");
     } else {
       form.setError("root", { message: "Email or Password is incorrect" });
