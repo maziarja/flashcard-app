@@ -4,13 +4,16 @@ import PatternStarBlue from "@/components/ui/pattern-star-blue";
 import PatternStarPink from "@/components/ui/pattern-star-pink";
 import PatternStarYellow from "@/components/ui/pattern-star-yellow";
 import { Progress } from "@/components/ui/progress";
-import { useState } from "react";
 import { useCardContext } from "@/app/_contexts/CardContext";
 import { MASTERED_LEVEL } from "@/lib/const";
 
 function CardContent() {
-  const [showAnswer, setShowAnswer] = useState(false);
-  const { filteredCards: cards, currentIndex } = useCardContext();
+  const {
+    filteredCards: cards,
+    currentIndex,
+    showCard: showAnswer,
+    dispatch,
+  } = useCardContext();
   const currentCard = cards[currentIndex];
 
   if (!currentCard) return null;
@@ -18,7 +21,7 @@ function CardContent() {
   return (
     <div
       role="button"
-      onClick={() => setShowAnswer((prevState) => !prevState)}
+      onClick={() => dispatch({ type: "SHOW_CARD" })}
       className={`relative flex h-100 cursor-pointer flex-col items-center gap-4 rounded-2xl border-2 border-neutral-900 transition-all duration-200 ${!showAnswer ? "bg-pink-400" : "bg-blue-400"} bg-[url("/assets/images/pattern-flashcard-bg.svg")] px-4 py-5 shadow-[2px_2px_0_0_#2e1401] md:p-6`}
     >
       <div className="absolute top-10 right-8">

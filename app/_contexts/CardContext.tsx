@@ -24,6 +24,7 @@ type CardContextType = {
   isAuthenticated: boolean;
   reloadCard: () => void;
   isLoading: boolean;
+  showCard: boolean;
 };
 
 type Action =
@@ -38,7 +39,8 @@ type Action =
   | { type: "HIDE_MASTERED"; payload: boolean }
   | { type: "TOGGLE_CATEGORY"; payload: string }
   | { type: "SHUFFLE_CARDS" }
-  | { type: "LOGGED_IN_USER"; payload: boolean };
+  | { type: "LOGGED_IN_USER"; payload: boolean }
+  | { type: "SHOW_CARD" };
 
 const CardContext = createContext<CardContextType | undefined>(undefined);
 
@@ -48,6 +50,7 @@ const initialState = {
   hideMastered: false,
   selectedCategories: [],
   isAuthenticated: false,
+  showCard: false,
 };
 
 function reducer(
@@ -57,6 +60,7 @@ function reducer(
     hideMastered: boolean;
     selectedCategories: string[];
     isAuthenticated: boolean;
+    showCard: boolean;
   },
   action: Action,
 ) {
@@ -100,6 +104,12 @@ function reducer(
         selectedCategories: [],
       };
 
+    case "SHOW_CARD":
+      return {
+        ...state,
+        showCard: !state.showCard,
+      };
+
     case "NEXT_CARD":
       if (state.cards.length === 0) return state;
       const next =
@@ -109,6 +119,7 @@ function reducer(
       return {
         ...state,
         currentIndex: next,
+        showCard: false,
       };
 
     case "PREV_CARD":
@@ -121,6 +132,7 @@ function reducer(
       return {
         ...state,
         currentIndex: prev,
+        showCard: false,
       };
 
     case "CHECKED_CARD":
@@ -190,7 +202,14 @@ function reducer(
 
 function CardProvider({ children }: { children: React.ReactNode }) {
   const [
-    { cards, currentIndex, hideMastered, selectedCategories, isAuthenticated },
+    {
+      cards,
+      currentIndex,
+      hideMastered,
+      showCard,
+      selectedCategories,
+      isAuthenticated,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
   const [reloadCards, setReloadCards] = useState(0);
@@ -238,6 +257,7 @@ function CardProvider({ children }: { children: React.ReactNode }) {
         isAuthenticated,
         reloadCard,
         isLoading,
+        showCard,
       }}
     >
       {children}
